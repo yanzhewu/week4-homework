@@ -1,0 +1,61 @@
+<style>
+  h2 {
+    color: white;
+    background: #006;
+    padding: 6px;
+    text-align: center;
+  }
+  .price {
+    color: green;
+    border: solid 3px green;
+    padding: 4px;
+  }
+  img {
+    float: left;
+    margin-right: 40px;
+    box-shadow: 8px 8px 4px gray;
+    height: "200px";
+  }
+  p {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+</style>
+
+<h2><%= @place.title %></h2>
+
+<p>
+  <span class="price">Admission Price: <%= number_to_currency @place.price/100 %></span>
+  <%= link_to "Edit", "/places/#{@place.id}/edit" %>
+</p>
+
+<div>
+<%= image_tag @place.photo_url, size: '200x200' %>
+
+<p><%= @place.desc %></p>
+
+<h3 style="clear:both; margin-top: 100px">Reviews</h3>
+
+<p>Write a review</p>
+<form action="/reviews/<%= @place.id %>/submit_new">
+  <select name="rating">
+    <option>5 star</option>
+    <option>4 star</option>
+    <option>3 star</option>
+    <option>2 star</option>
+    <option>1 star</option>
+  </select>
+  <input name="desc" size="50">
+  <button>Submit</button>
+</form>
+
+<% Review.where(place_id: @place.id).order('id desc').each do |review| %>
+  <p>
+    <strong><%= ("&#9733;" * review.rating).html_safe  %></strong>
+    <%= review.desc %>
+
+  </p>
+<% end %>
+
+<p></p>
+
