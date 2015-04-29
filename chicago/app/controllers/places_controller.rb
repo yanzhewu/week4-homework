@@ -31,7 +31,7 @@ class PlacesController < ApplicationController
                  photo_url: params[:url],
                  desc: params[:desc]
 
-    redirect_to "/places/#{@place.id}"
+    redirect_to place_path(params[:id])
   end
 
   def destroy
